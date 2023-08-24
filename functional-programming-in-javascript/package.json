@@ -1,0 +1,12 @@
+{
+  "name": "fp-in",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "app": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
