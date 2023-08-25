@@ -30,7 +30,7 @@ to_country_name(shared_ptr<country>& ulke){
     return ulke->name;
 }
 
-int main(int argc, char* argv[]){
+int main(){
     create_world();
     auto is_asian = bind(in_continent, placeholders::_1, "Asia");
     auto length_shorter_than4 = bind(string_length_shorter,placeholders::_1,4);
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
     ){
         cout << country_name << endl;
     }
-    auto to_country = [](pair<const string,shared_ptr<country>> entry){
+    auto to_country = [](pair<const string,shared_ptr<country>>& entry){
         return entry.second;
     };
     vector<shared_ptr<country>> v_countries;

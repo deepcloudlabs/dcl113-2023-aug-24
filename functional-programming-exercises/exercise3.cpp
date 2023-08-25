@@ -16,7 +16,7 @@ map<string,shared_ptr<country>> countries;
 
 int main(int argc, char* argv[]){
     create_world();
-    auto compareByGnpAsc = [](pair<const string,shared_ptr<country>> &firstEntry,pair<const string,shared_ptr<country>> &secondEntry){
+    auto compareByGnpAsc = [](auto &firstEntry,auto &secondEntry){
         return firstEntry.second->gnp < secondEntry.second->gnp;
     };
     // reduce

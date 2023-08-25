@@ -23,6 +23,23 @@ struct statistics {
     T max;
     int numberOfSamples;
     statistics() : numberOfSamples(0) {}
+    auto add_sample(E sample,T sampleValue){
+        if (numberOfSamples == 0) {
+            min = sampleValue;
+            min_element = sample;
+            max = sampleValue;
+            max_element = sample;
+        }
+        numberOfSamples++;
+        if (min > sampleValue) {
+            min = sampleValue;
+            min_element = sample;
+        } else if (max < sampleValue) {
+            max = sampleValue;
+            max_element = sample;
+        }
+        return *this;
+    }
 };
 
 ostream& operator<<(ostream& out,const statistics<shared_ptr<city>,int>& stats){
@@ -39,10 +56,22 @@ ostream& operator<<(ostream& out,const statistics<shared_ptr<city>,int>& stats){
     return out;
 }
 
+typedef statistics<shared_ptr<city>, int> CityPopulationStatistics;
+typedef shared_ptr<city> SharedPtrCity;
+
 int main(int argc, char* argv[]){
     create_world();
 
-	// TODO: Find cities with the min and the max population in each country
-
+	// Find cities with the min and the max population in each country
+    for (auto &entry: countries) {
+        auto this_country = entry.second;
+        auto country_cities = this_country->cities;
+        auto statisticsReducer = [](auto&& cityPopulationStatistics,auto &a_city)  {
+            return cityPopulationStatistics.add_sample(a_city,a_city->population);
+        };
+        auto populationStatistics = accumulate(country_cities.begin(), country_cities.end(), CityPopulationStatistics(), statisticsReducer);
+        cout << this_country->name << "'s statistics ==> \t" ;
+        cout << populationStatistics << endl;
+    }
     return 0;
 }

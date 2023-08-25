@@ -20,13 +20,13 @@ void print_continent(const string& continent){
 }
 int main(int argc, char* argv[]){
 	create_world();
-    auto continentReducer = [](set<string> conts,pair<const string,shared_ptr<country>>& entry){
+    auto continentReducer = [](auto&& conts,auto& entry){
         auto country = entry.second;
         conts.insert(country->continent);
         return conts;
     };
     // reduce
-    set<string> continents = accumulate(countries.begin(),countries.end(),set<string>(),continentReducer);
+    auto continents = accumulate(countries.begin(),countries.end(),set<string>(),continentReducer);
     for_each(continents.begin(),continents.end(),print_continent);
 	cout << endl << "done." << endl;
     return 0;

@@ -21,7 +21,7 @@ void print_continent_country_counts(const pair<string,int>& entry){
 }
 int main(int argc, char *argv[]) {
     create_world();
-    auto groupingByContinentCounter = [](map<string,int> groupByCounting, pair<const string,shared_ptr<country>>& entry){
+    auto groupingByContinentCounter = [](auto&& groupByCounting, auto& entry){
         ++groupByCounting[entry.second->continent];
         return groupByCounting;
     };
