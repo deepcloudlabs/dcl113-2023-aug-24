@@ -42,6 +42,11 @@ bySalary(const employee& emp){
     return emp.getSalary();
 }
 
+auto
+byBirthYear(const employee& emp){
+    return emp.getBirthYear();
+}
+
 template <class T>
 bool
 inAscendingOrder(const T& x,const T& y){
@@ -62,13 +67,23 @@ getOrder(OrderBy orderBy, CompareBy compareBy){ // Generic HoF
     } ;
 }
 
+
+template<class T,class OrderByFirst,class CompareByFirst,class OrderBySecond,class CompareBySecond>
+decltype(auto)
+getOrderThen(OrderByFirst orderByFirst, CompareByFirst compareByFirst,OrderBySecond orderBySecond, CompareBySecond compareBySecond){ // Generic HoF
+    return [orderByFirst,compareByFirst,orderBySecond,compareBySecond](const T& first,const T& second) -> bool { // Pure Function
+         if ( orderByFirst(first) == orderByFirst(second) )
+            return compareBySecond(orderBySecond(first),orderBySecond(second));
+         return compareByFirst(orderByFirst(first),orderByFirst(second));
+    } ;
+}
 int main() {
     vector<employee> employees{
             {"kate",   "austen", employee::department_t::it,      employee::gender_t::female, 200'000, "tr1", 1986},
-            {"james",  "sawyer", employee::department_t::hr,      employee::gender_t::male,   250'000, "tr2", 1976},
+            {"james",  "sawyer", employee::department_t::hr,      employee::gender_t::male,   100'000, "tr2", 1976},
             {"juliet", "burke",  employee::department_t::sales,   employee::gender_t::female, 100'000, "tr3", 1996},
-            {"john",   "locke",  employee::department_t::finance, employee::gender_t::male,   150'000, "tr4", 1956},
-            {"ben",    "linus",  employee::department_t::it,      employee::gender_t::male,   300'000, "tr5", 1966}
+            {"john",   "locke",  employee::department_t::finance, employee::gender_t::male,   200'000, "tr4", 1956},
+            {"ben",    "linus",  employee::department_t::it,      employee::gender_t::male,   100'000, "tr5", 1966}
     };
     // HoF: sort
     // sorting ? criteria
@@ -89,5 +104,8 @@ int main() {
     for_each(names.begin(),names.end(),[](const string& s){cout << s << endl;});
     sort(names.begin(),names.end(),getOrder<string>(byStringLength, greater<int>()));
     for_each(names.begin(),names.end(),[](const string& s){cout << s << endl;});
+    cout << endl;
+    sort(employees.begin(), employees.end(), getOrderThen<employee>(bySalary, less<double>(), byBirthYear, less<int>()));
+    for_each(employees.begin(), employees.end(), print_employee); // C-like function
     return 0;
 }
