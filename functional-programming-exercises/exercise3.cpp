@@ -16,8 +16,19 @@ map<string,shared_ptr<country>> countries;
 
 int main(int argc, char* argv[]){
     create_world();
-
-    // TODO:  Find the richest country wrt GNP
-	
+    auto compareByGnpAsc = [](pair<const string,shared_ptr<country>> &firstEntry,pair<const string,shared_ptr<country>> &secondEntry){
+        return firstEntry.second->gnp < secondEntry.second->gnp;
+    };
+    // reduce
+    auto richest_country_entry =
+    max_element(countries.begin(),countries.end(),compareByGnpAsc);
+    cout << richest_country_entry->second->name << ", "
+         << richest_country_entry->second->gnp
+         << endl;
+    auto poor_country_entry =
+            min_element(countries.begin(),countries.end(),compareByGnpAsc);
+    cout << poor_country_entry->second->name << ", "
+         << poor_country_entry->second->gnp
+         << endl;
     return 0;
 }
