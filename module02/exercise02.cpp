@@ -88,11 +88,11 @@ int main() {
     // HoF: sort
     // sorting ? criteria
     for_each(employees.begin(), employees.end(), print_employee); // C-like function
-    sort(employees.begin(), employees.end(), getOrder<employee>(bySalary, less<double>()));
+    sort(employees.begin(), employees.end(), getOrder<employee>(bySalary, less<>()));
     cout << endl;
     for_each(employees.begin(), employees.end(), print_employee); // C-like function
     cout << endl;
-    sort(employees.begin(), employees.end(), getOrder<employee>(bySalary, greater<double>()));
+    sort(employees.begin(), employees.end(), getOrder<employee>(bySalary, greater<>()));
     for_each(employees.begin(), employees.end(), print_employee); // C-like function
     vector<string> names {"jack", "james", "ben", "sun", "jin", "kate"};
     auto byStringLength = [](const string &s) { return s.size(); };
@@ -100,9 +100,9 @@ int main() {
     for_each(names.begin(),names.end(),[](const string& s){cout << s << endl;});
     sort(names.begin(),names.end(),getOrder<string>(byStringLength, inDescendingOrder<int>));
     for_each(names.begin(),names.end(),[](const string& s){cout << s << endl;});
-    sort(names.begin(),names.end(),getOrder<string>(byStringLength, less<int>()));
+    sort(names.begin(),names.end(),getOrder<string>(byStringLength, less<>()));
     for_each(names.begin(),names.end(),[](const string& s){cout << s << endl;});
-    sort(names.begin(),names.end(),getOrder<string>(byStringLength, greater<int>()));
+    sort(names.begin(),names.end(),getOrder<string>(byStringLength, greater<>()));
     for_each(names.begin(),names.end(),[](const string& s){cout << s << endl;});
     cout << endl;
     sort(employees.begin(), employees.end(), getOrderThen<employee>(bySalary, less<double>(), byBirthYear, less<int>()));
